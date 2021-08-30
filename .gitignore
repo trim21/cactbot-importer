@@ -2,3 +2,4 @@ tmp/
 dist/
 .vscode
 .idea/
+.pre-commit-config.yaml
