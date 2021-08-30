@@ -20,39 +20,57 @@
 <body class="py-4">
 <main>
   <div id="container" class="container">
-    <div class="row">
-      <div class="input-group mb-3 d-flex" v-for="(remote, index) in remotes" :key="index">
-        <span class="input-group-text form-control" id="basic-addon3">{{remote.url}}</span>
-        <input type="hidden" name="url" :value="remote.url">
-        <button class="btn-danger text-white btn btn-outline-secondary" type="button" @click="remove(index)">X
-        </button>
+    <div class="row" v-if="remotes.length">
+
+      <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-start"
+            v-for="(remote, index) in remotes" :key="index"
+        >
+          <div class="ms-2 me-auto user-select-auto">
+            <span class="badge bg-primary user-select-none me-2">
+              {{remote.name}}:
+            </span>{{remote.url}}
+          </div>
+          <button class="btn btn-danger py-0 user-select-none" @click="remove(index)">X</button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="row py-4">
+      <div class="col-lg-2 col-md-10 col-sm-12">
+        <label for="nameInput" class="form-label">备注</label>
+        <input type="text"
+               id="nameInput"
+               class="form-control"
+               v-on:keyup="keyup"
+               v-on:keypress="keyup"
+               v-model="name"
+               placeholder="触发器备注">
+
       </div>
 
-      <hr>
-
-      <div class="input-group mb-3">
+      <div class="col-lg-10 col-md-10 col-sm-12">
+        <label for="urlInput" class="form-label">触发器链接</label>
         <input type="url"
+               id="urlInput"
                class="form-control"
-               id="only_input"
                :class="{'text-danger': !validInput()}"
+               placeholder="https://example.com/trigger.js"
                v-model="current_input"
-               placeholder="remote url"
-               aria-label="remote url"
                v-on:keyup="keyup"
                v-on:keypress="keyup"
                aria-describedby="button-addon2">
-        <button @click="add" class="btn btn-outline-secondary" type="button">+</button>
       </div>
 
     </div>
 
-    <div class="row d-flex justify-content-between">
-      <button @click="showFinal" class="col-4 btn btn-primary">查看触发器源码</button>
+    <div class="row py-1">
+      <button @click="add" class="btn btn-primary" type="button">添加</button>
     </div>
 
     <div class="row py-4 d-flex justify-content-between">
+      <button @click="showFinal" class="col-4 btn btn-primary">查看触发器源码</button>
       <button @click="getLoader" class="col-4 btn btn-primary">下载raidboss.js</button>
-      <div class="col-8">这个下载的程序跟查看的显示的会不一样，其中包括了自动更新检查</div>
     </div>
 
     <div class="py-4 row">
@@ -70,12 +88,15 @@
     data() {
       let remotes = sessionStorage.getItem(configKey);
       if (remotes === null) {
-        remotes = [{ url: "https://cdn.jsdelivr.net/gh/Trim21/Trim21/manifest.json" }]
+        remotes = [{
+          url: "https://cdn.jsdelivr.net/gh/Trim21/cactbot-triggers/src/name_to_job.ts",
+          name: "在副本中用职业替代游戏ID"
+        }]
       } else {
         remotes = JSON.parse(remotes)
       }
 
-      return { script: '', current_input: '', remotes: remotes }
+      return { script: '', current_input: '', name: '', remotes: remotes }
     },
     watch: {
       remotes(newVal) {
@@ -133,8 +154,13 @@
         if (this.remotes.filter(x => x.url === url).length !== 0) {
           return
         }
-        this.remotes.push({ url: url })
+        if (!this.validInput()) {
+          alert(`${this.current_input} 不是有效的URL`)
+          return;
+        }
+        this.remotes.push({ url: url, name: this.name })
         this.current_input = ''
+        this.name = ''
       },
       remove(index) {
         this.remotes.splice(index, 1)
