@@ -68,11 +68,12 @@
       <button @click="add" class="btn btn-primary" type="button">添加</button>
     </div>
 
+    <div class="row"><a href="https://github.com/Trim21/cactbot-importer" target="_blank" rel="noopener">使用说明</a></div>
+
     <div class="row py-4 d-flex justify-content-between">
       <button @click="showFinal" class="col-4 btn btn-primary">查看触发器源码</button>
       <button @click="getLoader" class="col-4 btn btn-primary">下载raidboss.js</button>
     </div>
-
     <div class="py-4 row">
       <pre v-if="script" class="rounded bg-secondary bg-opacity-25"><code>{{script}}</code></pre>
     </div>

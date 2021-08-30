@@ -10,30 +10,10 @@ import (
 
 	"cactbot_importer/pkg/fetch"
 	"cactbot_importer/pkg/repo"
-	"cactbot_importer/pkg/s"
-	"cactbot_importer/pkg/utils"
 )
 
 func SetupRouter(app fiber.Router) {
 	static := pkger.Dir("/static")
-
-	app.Get("/js", func(c *fiber.Ctx) error {
-		h, err := utils.GenerateSecureToken(64)
-		if err != nil {
-			return err
-		}
-
-		return c.JSON(fiber.Map{
-			"title":  h,
-			"length": len(h),
-		})
-	})
-
-	app.Get("/js/:hash", func(c *fiber.Ctx) error {
-		h := c.Params("hash")
-		c.Set(fiber.HeaderContentType, fiber.MIMEApplicationJavaScriptCharsetUTF8)
-		return templateRender(c, "loader.js", s.Loader{UniqueID: h})
-	})
 
 	type Urls struct {
 		Urls []string `json:"urls" form:"url" xml:"urls"`
