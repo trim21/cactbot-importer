@@ -186,7 +186,7 @@
 
   function fetchScript() {
     const request = new XMLHttpRequest();
-    request.open('POST', 'http://127.0.0.1:5000/v0/raidboss.js', false);
+    request.open('POST', 'https://cactbot-importer.trim21.cn/v0/raidboss.js', false);
     request.setRequestHeader('content-type', 'application/json');
     request.send(JSON.stringify({ urls: config.map((x) => x.url) }));
 
