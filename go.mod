@@ -7,7 +7,7 @@ require (
 	github.com/evanw/esbuild v0.12.23
 	github.com/go-resty/resty/v2 v2.6.0
 	github.com/gofiber/fiber/v2 v2.18.0
-	github.com/gofiber/template v1.6.15
+	github.com/gofiber/template v1.6.16
 	github.com/jxskiss/base62 v0.0.0-20191017122030-4f11678b909b
 	github.com/markbates/pkger v0.17.1
 	github.com/pkg/errors v0.9.1
