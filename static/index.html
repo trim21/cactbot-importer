@@ -28,8 +28,8 @@
         >
           <div class="ms-2 me-auto user-select-auto">
             <span class="badge bg-primary user-select-none me-2">
-              {{remote.name}}
-            </span>{{remote.url}}
+              {{ remote.name }}
+            </span>{{ remote.url }}
           </div>
           <button class="btn btn-danger py-0 user-select-none" @click="remove(index)">X</button>
         </li>
@@ -93,7 +93,7 @@
       <button @click="getLoader" class="col-4 btn btn-primary">下载raidboss.js</button>
     </div>
     <div class="py-4 row">
-      <pre v-if="script" class="rounded bg-secondary bg-opacity-25"><code>{{script}}</code></pre>
+      <pre v-if="script" class="rounded bg-secondary bg-opacity-25"><code>{{ script }}</code></pre>
     </div>
 
   </div>
@@ -118,10 +118,12 @@
     data() {
       let remotes = sessionStorage.getItem(configKey);
       if (remotes === null) {
-        remotes = [{
-          url: "https://cdn.jsdelivr.net/gh/Trim21/cactbot-triggers/src/name_to_job.ts",
-          name: "在副本中用职业替代游戏ID"
-        }]
+        remotes = [
+          // {
+          //   url: "https://cdn.jsdelivr.net/gh/Trim21/cactbot-triggers/src/name_to_job.ts",
+          //   name: "在副本中用职业替代游戏ID"
+          // }
+        ]
       } else {
         remotes = JSON.parse(remotes)
       }
