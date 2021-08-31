@@ -1,7 +1,7 @@
 name: docker
 
 on:
-  push:
+  pull_request:
     branches:
       - master
 
@@ -25,9 +25,3 @@ jobs:
           CGO_ENABLED: 0
 
       - run: docker build -t ghcr.io/trim21/cactbot_importer:latest .
-
-      - run: |
-          echo $DOCKER_TOKEN | docker login ghcr.io -u Trim21 --password-stdin
-          docker push ghcr.io/trim21/cactbot_importer:latest
-        env:
-          DOCKER_TOKEN: ${{ github.token }}
