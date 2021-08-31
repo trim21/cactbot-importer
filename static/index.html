@@ -28,7 +28,7 @@
         >
           <div class="ms-2 me-auto user-select-auto">
             <span class="badge bg-primary user-select-none me-2">
-              {{remote.name}}:
+              {{remote.name}}
             </span>{{remote.url}}
           </div>
           <button class="btn btn-danger py-0 user-select-none" @click="remove(index)">X</button>
@@ -102,6 +102,17 @@
 
 <script>
   const configKey = 'config_v0'
+  const add = {}
+
+
+  if (location.hash.length) {
+    const qs = new URLSearchParams(window.location.hash.substr(1));
+    console.log(qs)
+    if (qs.has('add.url') && qs.has('add.name')) {
+      add['url'] = qs.get('add.url')
+      add['name'] = qs.get('add.name')
+    }
+  }
 
   new Vue({
     el: "#container",
@@ -117,6 +128,14 @@
       }
 
       return { script: '', current_input: '', name: '', remotes: remotes }
+    },
+    mounted() {
+      if (!$.isEmptyObject(add)) {
+        this.current_input = add.url
+        this.name = add.name
+        this.add()
+        history.replaceState(null, null, '#');
+      }
     },
     watch: {
       remotes(newVal) {
