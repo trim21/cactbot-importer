@@ -19,6 +19,8 @@ github.com/evanw/esbuild v0.12.25 h1:FlSe5XiHzhzyyVqphHWMU+NOPsKLfb0yzOM7zgroJOY
 github.com/evanw/esbuild v0.12.25/go.mod h1:y2AFBAGVelPqPodpdtxWWqe6n2jYf5FrsJbligmRmuw=
 github.com/evanw/esbuild v0.12.26 h1:46824oS0YbogX1Vp8fPpTXkcVLcKu+OIfRBL7U7Ujz8=
 github.com/evanw/esbuild v0.12.26/go.mod h1:GG+zjdi59yh3ehDn4ZWfPcATxjPDUH53iU4ZJbp7dkY=
+github.com/evanw/esbuild v0.12.27 h1:pWtTIKGO4Af2P2u6Jps5vmJy1wpUqdx4QmI1Y/fvxY8=
+github.com/evanw/esbuild v0.12.27/go.mod h1:GG+zjdi59yh3ehDn4ZWfPcATxjPDUH53iU4ZJbp7dkY=
 github.com/go-resty/resty/v2 v2.6.0 h1:joIR5PNLM2EFqqESUjCMGXrWmXNHEU9CEiK813oKYS4=
 github.com/go-resty/resty/v2 v2.6.0/go.mod h1:PwvJS6hvaPkjtjNg9ph+VrSD92bi5Zq73w/BIH7cC3Q=
 github.com/gobuffalo/here v0.6.0 h1:hYrd0a6gDmWxBM4TnrGw8mQg24iSVoIkHEk7FodQcBI=
