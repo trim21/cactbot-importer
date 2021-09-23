@@ -39,7 +39,7 @@ func Fetch(urls []string) (string, error) {
 	}
 
 	for _, u := range urls {
-		uu, err := url.Parse(u)
+		uu, err := url.ParseRequestURI(strings.TrimSpace(u))
 		if err != nil {
 			return "", errors.Wrapf(err, strconv.Quote(u))
 		}
