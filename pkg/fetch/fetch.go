@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/pkg/errors"
 
 	"cactbot_importer/pkg/http"
@@ -79,6 +80,9 @@ func joinURLs(w *bytes.Buffer, urls []string, ref map[string]string) error {
 		}
 
 		resp, err := http.Get(striped)
+		if err != nil {
+			return fiber.NewError(fiber.StatusBadGateway, "无法获取 "+striped.String())
+		}
 		if resp.StatusCode() >= 300 {
 			if v, found := ref[u]; found {
 				return fmt.Errorf("无法获取合集 %s\n\n文件 %s 消失", v, u)
