@@ -10,12 +10,7 @@ import (
 var client = resty.New()
 
 func Get(u *url.URL) (Response, error) {
-	if forbiddenURL(&url.URL{
-		Scheme:  u.Scheme,
-		Host:    u.Host,
-		Path:    u.Path,
-		RawPath: u.RawPath,
-	}) {
+	if forbiddenURL(u) {
 		return nil, errors.New("禁止发送请求到域名 " + u.Host)
 	}
 
