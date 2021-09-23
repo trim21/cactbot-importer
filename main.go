@@ -1,17 +1,24 @@
 package main
 
 import (
-	"fmt"
-	"log"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/sirupsen/logrus"
 
 	"cactbot_importer/pkg/handler"
 )
 
 //go:generate pkger
 func main() {
+	setTimeZone()
+	logrus.SetFormatter(&logrus.JSONFormatter{
+		TimestampFormat:   time.RFC3339,
+		DisableTimestamp:  false,
+		DisableHTMLEscape: true,
+		PrettyPrint:       false,
+	})
 	app := fiber.New(fiber.Config{
 		StrictRouting:         true,
 		CaseSensitive:         true,
@@ -21,6 +28,10 @@ func main() {
 
 	handler.SetupRouter(app)
 
-	fmt.Println("http://127.0.0.1:5000/")
-	log.Fatalln(app.Listen(":3002"))
+	logrus.Infoln("http server started")
+	logrus.Fatalln(app.Listen(":3002"))
+}
+
+func setTimeZone() {
+	time.Local = time.FixedZone("Asia/Shanghai", 8*3600)
 }

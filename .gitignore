@@ -3,3 +3,5 @@ dist/
 .vscode
 .idea/
 .pre-commit-config.yaml
+*.exe
+*.exe~

@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	"github.com/markbates/pkger"
 	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 
 	"cactbot_importer/pkg/fetch"
 	"cactbot_importer/pkg/repo"
@@ -30,6 +31,8 @@ func SetupRouter(app fiber.Router) {
 		if err := c.BodyParser(p); err != nil {
 			return err
 		}
+		
+		logrus.WithField("urls", p.Urls).Infoln("")
 
 		js, err := fetch.Fetch(p.Urls)
 		if err != nil {

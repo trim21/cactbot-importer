@@ -13,7 +13,7 @@ import (
 
 var ErrNestedRepo = errors.New("can't refer a repo in another repo")
 
-func Fetch(remote string) ([]string, error) {
+func Fetch(remote string) ([]*url.URL, error) {
 	u, err := url.Parse(remote)
 	if err != nil {
 		return nil, errors.Wrapf(err, "不是合法的HTTP链接 %s", remote)
@@ -35,6 +35,8 @@ func Fetch(remote string) ([]string, error) {
 
 	p := path.Dir(u.Path)
 
+	urls := make([]*url.URL, len(v.Files))
+
 	for i, file := range v.Files {
 		if path.Ext(file) == ".json" {
 			return nil, ErrNestedRepo
@@ -44,10 +46,10 @@ func Fetch(remote string) ([]string, error) {
 			Host:   u.Host,
 			Path:   path.Join(p, file),
 		}
-		v.Files[i] = uu.String()
+		urls[i] = uu
 	}
 
-	return v.Files, nil
+	return urls, nil
 }
 
 type Manifest struct {
