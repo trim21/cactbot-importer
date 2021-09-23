@@ -6,6 +6,8 @@ services:
       - cactbot_importer
     ports:
       - "5008:3002"
+    environment:
+      TZ: "Asia/Shanghai"
 
 networks:
   cactbot_importer:

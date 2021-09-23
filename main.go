@@ -2,6 +2,7 @@ package main
 
 import (
 	"time"
+	_ "time/tzdata" //内嵌时区数据资源
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
@@ -12,7 +13,6 @@ import (
 
 //go:generate pkger
 func main() {
-	setTimeZone()
 	logrus.SetFormatter(&logrus.JSONFormatter{
 		TimestampFormat:   time.RFC3339,
 		DisableTimestamp:  false,
@@ -30,8 +30,4 @@ func main() {
 
 	logrus.Infoln("http server started")
 	logrus.Fatalln(app.Listen(":3002"))
-}
-
-func setTimeZone() {
-	time.Local = time.FixedZone("Asia/Shanghai", 8*3600)
 }
