@@ -24,7 +24,7 @@ func main() {
 		CaseSensitive:         true,
 		DisableStartupMessage: true,
 	})
-	app.Use(recover.New())
+	app.Use(recover.New(recover.Config{EnableStackTrace: true}))
 
 	handler.SetupRouter(app)
 

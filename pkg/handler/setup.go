@@ -31,8 +31,8 @@ func SetupRouter(app fiber.Router) {
 		if err := c.BodyParser(p); err != nil {
 			return err
 		}
-		
-		logrus.WithField("urls", p.Urls).Infoln("")
+
+		logrus.WithField("urls", p.Urls).Infoln("post")
 
 		js, err := fetch.Fetch(p.Urls)
 		if err != nil {

@@ -1,6 +1,7 @@
 package http
 
 import (
+	"context"
 	"net/url"
 
 	"github.com/go-resty/resty/v2"
@@ -14,15 +15,25 @@ func Get(u *url.URL) (Response, error) {
 		return nil, errors.New("禁止发送请求到域名 " + u.Host)
 	}
 
+	return req(func() *resty.Request { return client.R() }, u)
+}
+
+func GetWithCtx(ctx context.Context, u *url.URL) (Response, error) {
+	if forbiddenURL(u) {
+		return nil, errors.New("禁止发送请求到域名 " + u.Host)
+	}
+	return req(func() *resty.Request { return client.R().SetContext(ctx) }, u)
+}
+
+func req(r func() *resty.Request, u *url.URL) (Response, error) {
 	resp, ok := cacheGet(u.String())
 	if !ok || resp.StatusCode() >= 300 {
-		res, err := client.R().Get(u.String())
+		res, err := r().Get(u.String())
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to get resource %s", u)
 		}
 		resp = cacheSet(u.String(), res)
 	}
-
 	return resp, nil
 }
 

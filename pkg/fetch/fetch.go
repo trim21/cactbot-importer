@@ -2,6 +2,7 @@ package fetch
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -9,6 +10,8 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
+	"golang.org/x/sync/errgroup"
 
 	"cactbot_importer/pkg/http"
 	"cactbot_importer/pkg/repo"
@@ -73,30 +76,55 @@ func Fetch(urls []string) (string, error) {
 	w.WriteString("\n")
 
 	err := joinURLs(w, processedUrls, ref)
-
-	return w.String(), err
+	if err != nil {
+		return "", err
+	}
+	return w.String(), nil
 }
 
 func joinURLs(w *bytes.Buffer, urls []*url.URL, ref map[*url.URL]*url.URL) error {
-	for _, u := range urls {
-		u.RawQuery = ""
-		striped := &url.URL{
-			Scheme: u.Scheme,
-			Host:   u.Host,
-			Path:   u.Path,
-		}
+	res := make([]http.Response, len(urls))
+	var g, ctx = errgroup.WithContext(context.Background())
 
-		resp, err := http.Get(striped)
-		if err != nil {
-			return fiber.NewError(fiber.StatusBadGateway, "无法获取链接 "+strconv.Quote(striped.String()))
+	{
+		uu := make([]string, len(urls))
+		for i, u := range urls {
+			uu[i] = u.String()
 		}
-		if resp.StatusCode() >= 300 {
-			if v, found := ref[u]; found {
-				return fmt.Errorf("无法获取合集 %s\n\n文件 %s 消失", v, u.String())
-			}
-			return fmt.Errorf("无法获取文件 %s", u.String())
-		}
+		logrus.WithField("urls", uu).Infoln("joinUrls")
+	}
 
+	for i, u := range urls {
+		func(i int, u *url.URL) {
+			g.Go(func() error {
+				u.RawQuery = ""
+				striped := &url.URL{
+					Scheme: u.Scheme,
+					Host:   u.Host,
+					Path:   u.Path,
+				}
+
+				resp, err := http.GetWithCtx(ctx, striped)
+				if err != nil {
+					return fiber.NewError(fiber.StatusBadGateway, "无法获取链接 "+strconv.Quote(striped.String()))
+				}
+				if resp.StatusCode() >= 300 {
+					if v, found := ref[u]; found {
+						return fmt.Errorf("无法获取合集 %s\n\n文件 %s 消失", v, u.String())
+					}
+					return fmt.Errorf("无法获取文件 %s", u.String())
+				}
+				res[i] = resp
+				return nil
+			})
+		}(i, u)
+	}
+
+	if err := g.Wait(); err != nil {
+		return err
+	}
+
+	for _, resp := range res {
 		t, err := process(resp)
 		if err != nil {
 			if errors.Is(err, ErrTransform) {
@@ -104,10 +132,10 @@ func joinURLs(w *bytes.Buffer, urls []*url.URL, ref map[*url.URL]*url.URL) error
 			}
 			return err
 		}
-		w.WriteString("// start " + striped.String() + "\n")
-		w.WriteString("console.log('cactbot importer: [INFO] executing script from " + striped.String() + "');\n")
+		w.WriteString("// start " + resp.URL() + "\n")
+		w.WriteString("console.log('cactbot importer: [INFO] executing script from " + resp.URL() + "');\n")
 		w.WriteString(t)
-		w.WriteString("// end " + striped.String() + "\n\n")
+		w.WriteString("// end " + resp.URL() + "\n\n")
 	}
 
 	return nil
