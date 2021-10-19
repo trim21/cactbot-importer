@@ -12,6 +12,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/sync/errgroup"
+	"golang.org/x/sync/semaphore"
 
 	"cactbot_importer/pkg/http"
 	"cactbot_importer/pkg/repo"
@@ -82,6 +83,8 @@ func Fetch(urls []string) (string, error) {
 	return w.String(), nil
 }
 
+var sem = semaphore.NewWeighted(4)
+
 func joinURLs(w *bytes.Buffer, urls []*url.URL, ref map[*url.URL]*url.URL) error {
 	res := make([]http.Response, len(urls))
 	var g, ctx = errgroup.WithContext(context.Background())
@@ -95,29 +98,34 @@ func joinURLs(w *bytes.Buffer, urls []*url.URL, ref map[*url.URL]*url.URL) error
 	}
 
 	for i, u := range urls {
-		func(i int, u *url.URL) {
-			g.Go(func() error {
-				u.RawQuery = ""
-				striped := &url.URL{
-					Scheme: u.Scheme,
-					Host:   u.Host,
-					Path:   u.Path,
-				}
+		u := u
+		i := i
+		err := sem.Acquire(ctx, 1)
+		if err != nil {
+			return err
+		}
+		g.Go(func() error {
+			defer sem.Release(1)
+			u.RawQuery = ""
+			striped := &url.URL{
+				Scheme: u.Scheme,
+				Host:   u.Host,
+				Path:   u.Path,
+			}
 
-				resp, err := http.GetWithCtx(ctx, striped)
-				if err != nil {
-					return fiber.NewError(fiber.StatusBadGateway, "无法获取链接 "+strconv.Quote(striped.String()))
+			resp, err := http.GetWithCtx(ctx, striped)
+			if err != nil {
+				return fiber.NewError(fiber.StatusBadGateway, "无法获取链接 "+strconv.Quote(striped.String()))
+			}
+			if resp.StatusCode() >= 300 {
+				if v, found := ref[u]; found {
+					return fmt.Errorf("无法获取合集 %s\n\n文件 %s 消失", v, u.String())
 				}
-				if resp.StatusCode() >= 300 {
-					if v, found := ref[u]; found {
-						return fmt.Errorf("无法获取合集 %s\n\n文件 %s 消失", v, u.String())
-					}
-					return fmt.Errorf("无法获取文件 %s", u.String())
-				}
-				res[i] = resp
-				return nil
-			})
-		}(i, u)
+				return fmt.Errorf("无法获取文件 %s", u.String())
+			}
+			res[i] = resp
+			return nil
+		})
 	}
 
 	if err := g.Wait(); err != nil {

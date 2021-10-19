@@ -42,6 +42,5 @@ func forbiddenURL(u *url.URL) bool {
 	case "cdn.jsdelivr.net":
 		return false
 	}
-	//return strings.HasSuffix(u.Host, ".github.io")
 	return true
 }
