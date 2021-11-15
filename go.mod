@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/dgraph-io/ristretto v0.1.0
 	github.com/evanw/esbuild v0.13.13
-	github.com/go-resty/resty/v2 v2.6.0
+	github.com/go-resty/resty/v2 v2.7.0
 	github.com/gofiber/fiber/v2 v2.21.0
 	github.com/markbates/pkger v0.17.1
 	github.com/pkg/errors v0.9.1
@@ -24,6 +24,6 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.31.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/net v0.0.0-20210510120150-4163338589ed // indirect
+	golang.org/x/net v0.0.0-20211029224645-99673261e6eb // indirect
 	golang.org/x/sys v0.0.0-20210908233432-aa78b53d3365 // indirect
 )
