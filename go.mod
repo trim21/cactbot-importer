@@ -6,7 +6,7 @@ require (
 	github.com/dgraph-io/ristretto v0.1.0
 	github.com/evanw/esbuild v0.13.13
 	github.com/go-resty/resty/v2 v2.7.0
-	github.com/gofiber/fiber/v2 v2.21.0
+	github.com/gofiber/fiber/v2 v2.23.0
 	github.com/markbates/pkger v0.17.1
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.8.1
