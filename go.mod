@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/dgraph-io/ristretto v0.1.0
-	github.com/evanw/esbuild v0.14.36
+	github.com/evanw/esbuild v0.14.39
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/gofiber/fiber/v2 v2.31.0
 	github.com/markbates/pkger v0.17.1
