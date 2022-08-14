@@ -1,7 +1,7 @@
 package wrap
 
 func Rewrite(err error, msg string) error {
-	return wrapErr{inner: err, msg: msg}
+	return &wrapErr{inner: err, msg: msg}
 }
 
 type wrapErr struct {
@@ -9,14 +9,10 @@ type wrapErr struct {
 	msg   string
 }
 
-func (w wrapErr) Is(target error) bool {
-	return target == w.inner //nolint:goerr113
-}
-
-func (w wrapErr) Unwrap() error {
+func (w *wrapErr) Unwrap() error {
 	return w.inner
 }
 
-func (w wrapErr) Error() string {
+func (w *wrapErr) Error() string {
 	return w.msg
 }
