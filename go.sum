@@ -21,6 +21,8 @@ github.com/evanw/esbuild v0.15.11 h1:4kWMKPoNw2EcgQ1QmJPX+gw81bxD8rVD/mY4HCMeo+w
 github.com/evanw/esbuild v0.15.11/go.mod h1:iINY06rn799hi48UqEnaQvVfZWe6W9bET78LbvN8VWk=
 github.com/evanw/esbuild v0.15.13 h1:te8r0UKusPzGgn8ylltb33Ffsbum+3tQDyHcg6MOwn8=
 github.com/evanw/esbuild v0.15.13/go.mod h1:iINY06rn799hi48UqEnaQvVfZWe6W9bET78LbvN8VWk=
+github.com/evanw/esbuild v0.15.14 h1:J/cqgL3yfj/HDHDo9txKAqyzTBYfAMuqCknkS2jhX24=
+github.com/evanw/esbuild v0.15.14/go.mod h1:iINY06rn799hi48UqEnaQvVfZWe6W9bET78LbvN8VWk=
 github.com/go-resty/resty/v2 v2.7.0 h1:me+K9p3uhSmXtrBZ4k9jcEAfJmuC8IivWHwaLZwPrFY=
 github.com/go-resty/resty/v2 v2.7.0/go.mod h1:9PWDzw47qPphMRFfhsyk0NnSgvluHcljSMVIq3w7q0I=
 github.com/gofiber/fiber/v2 v2.36.0 h1:1qLMe5rhXFLPa2SjK10Wz7WFgLwYi4TYg7XrjztJHqA=
