@@ -100,7 +100,7 @@ func joinURLs(w *bytes.Buffer, urls []*url.URL, ref map[*url.URL]*url.URL) error
 	for i, u := range urls {
 		u := u
 		i := i
-		err := sem.Acquire(ctx, 1)
+		err := sem.Acquire(context.Background(), 1)
 		if err != nil {
 			return err
 		}
