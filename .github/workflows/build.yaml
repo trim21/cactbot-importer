@@ -20,4 +20,4 @@ jobs:
         env:
           CGO_ENABLED: 0
 
-      - run: docker build -t ghcr.io/trim21/cactbot_importer:latest .
+      - run: docker build -t ghcr.io/trim21/cactbot-importer:latest .
