@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/dgraph-io/ristretto v0.1.1
-	github.com/evanw/esbuild v0.18.17
+	github.com/evanw/esbuild v0.19.2
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/gofiber/fiber/v2 v2.48.0
 	github.com/pkg/errors v0.9.1
