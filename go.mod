@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/dgraph-io/ristretto v0.1.1
 	github.com/evanw/esbuild v0.19.4
-	github.com/go-resty/resty/v2 v2.8.0
+	github.com/go-resty/resty/v2 v2.10.0
 	github.com/gofiber/fiber/v2 v2.50.0
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.9.3
