@@ -3,7 +3,7 @@ module cactbot_importer
 go 1.21
 
 require (
-	github.com/dgraph-io/ristretto/v2 v2.0.0
+	github.com/dgraph-io/ristretto v0.2.0
 	github.com/dgraph-io/ristretto/v2 v2.0.0
 	github.com/evanw/esbuild v0.24.0
 	github.com/go-resty/resty/v2 v2.16.2
@@ -27,6 +27,6 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.51.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/net v0.27.0 // indirect
-	golang.org/x/sys v0.26.0 // indirect
+	golang.org/x/net v0.33.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
 )
