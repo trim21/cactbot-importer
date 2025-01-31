@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/dgraph-io/ristretto v0.2.0
-	github.com/dgraph-io/ristretto/v2 v2.0.0
+	github.com/dgraph-io/ristretto/v2 v2.1.0
 	github.com/evanw/esbuild v0.24.0
 	github.com/go-resty/resty/v2 v2.16.2
 	github.com/gofiber/fiber/v2 v2.52.5
@@ -28,5 +28,5 @@ require (
 	github.com/valyala/fasthttp v1.51.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/net v0.33.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/sys v0.29.0 // indirect
 )
